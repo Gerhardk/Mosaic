@@ -4,12 +4,8 @@ include Magick
 def avg_rgb_for_folder(directory)
   array_of_rgb_values = []
   Dir.glob("#{directory}/*.jpg").sort.each do |filename|
-    print("#{filename}:")
-    image = Magick::ImageList.new
-    bin = File.open("#{filename}", "r") { |file| file.read }
-    img = image.from_blob(bin)
-    array_of_rgb_values << calc_avg_rgb(img)
-    print("\n")
+    image = Image.read(filename).first
+    array_of_rgb_values << [filename, calc_avg_rgb(image)]
   end
   return array_of_rgb_values
 end
@@ -24,7 +20,6 @@ def calc_avg_rgb(image)
     total += n
   }
   [:r, :g, :b].each { |comp| avg[comp] /= total }
-  [:r, :g, :b].each { |comp| avg[comp] = (avg[comp] / Magick::QuantumRange * 255).to_i }
-  print(avg)
+  [:r, :g, :b].each { |comp| avg[comp] = (avg[comp] / QuantumRange * 255).to_i }
   return avg
 end
