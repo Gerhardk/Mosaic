@@ -1,1 +1,0 @@
-![PandaMosaic](Mosaic.jpg)
