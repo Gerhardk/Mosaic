@@ -11,8 +11,8 @@ tile_images = Dir.glob("InputTileImages/*.jpg").sort.map do |filename|
   image = Image.read(filename).first
   rgb = calc_avg_rgb(image)
   filename, = rgb_values_for_replacement_images.min do |(_, rgb1), (_, rgb2)|
-    d1 = rgb_distance_sq(rgb,rgb1)
-    d2 = rgb_distance_sq(rgb, rgb2)
+    d1 = color_distance(rgb,rgb1)
+    d2 = color_distance(rgb, rgb2)
     d1 <=> d2
   end
 
@@ -29,4 +29,6 @@ montage_image = not_sized_images.montage do
   self.geometry = Magick::Geometry.new(192, 108, 0, 0)
 end
 
+montage_image.write("Mosaic.jpg")
 montage_image.display
+
